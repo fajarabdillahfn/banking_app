@@ -44,7 +44,9 @@ func (d CustomerRepositoryDb) FindAll() ([]Customer, error) {
 }
 
 func (d CustomerRepositoryDb) ByID(id string) (*Customer, error) {
-	customerSql := "SELECT customer_id, name, city, zipcode, date_of_birth, status FROM customers WHERE id = $1"
+	customerSql := `SELECT customer_id, name, city, zipcode, date_of_birth, status 
+					FROM customers 
+					WHERE customer_id = $1`
 
 	row := d.client.QueryRow(customerSql, id)
 
