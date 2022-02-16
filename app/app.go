@@ -12,6 +12,7 @@ import (
 
 const port = ":8000"
 
+/* A function that starts the server. */
 func Start() {
 	router := mux.NewRouter()
 
@@ -21,6 +22,7 @@ func Start() {
 
 	// define routes
 	router.HandleFunc("/customers", ch.GetAllCustomers).Methods(http.MethodGet)
+	router.HandleFunc("/customer/{customer_id:[0-9]+}", ch.GetCustomer).Methods(http.MethodGet)
 
 	// starting server
 	fmt.Println("Listening on Port", port)
