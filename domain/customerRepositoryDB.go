@@ -5,6 +5,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/fajarabdillahfn/banking_app/app/errs"
 	_ "github.com/lib/pq"
 )
 
@@ -12,13 +13,17 @@ type CustomerRepositoryDb struct {
 	client *sql.DB
 }
 
-func (d CustomerRepositoryDb) FindAll() ([]Customer, error) {
+func (d CustomerRepositoryDb) FindAll() ([]Customer, *errs.AppError) {
 	findAllSql := "SELECT customer_id, name, city, zipcode, date_of_birth, status FROM customers"
 
 	rows, err := d.client.Query(findAllSql)
 	if err != nil {
-		log.Println("Error while querying table:", err)
-		return nil, err
+		if err == sql.ErrNoRows {
+			return nil, errs.NewNotFoundError("Customer not found")
+		} else {
+			log.Println("Error while querying table:", err)
+			return nil, errs.NewUnexpectedError("Unexpected database error")
+		}
 	}
 
 	customers := make([]Customer, 0)
@@ -34,8 +39,12 @@ func (d CustomerRepositoryDb) FindAll() ([]Customer, error) {
 			&c.Status,
 		)
 		if err != nil {
-			log.Println("Error while scanning:", err)
-			return nil, err
+			if err == sql.ErrNoRows {
+				return nil, errs.NewNotFoundError("Customer Not Found")
+			} else {
+				log.Println("Error while scanning:", err)
+				return nil, errs.NewUnexpectedError("Unexpected database error")
+			}
 		}
 		customers = append(customers, c)
 	}
@@ -43,7 +52,7 @@ func (d CustomerRepositoryDb) FindAll() ([]Customer, error) {
 	return customers, nil
 }
 
-func (d CustomerRepositoryDb) ByID(id string) (*Customer, error) {
+func (d CustomerRepositoryDb) ByID(id string) (*Customer, *errs.AppError) {
 	customerSql := `SELECT customer_id, name, city, zipcode, date_of_birth, status 
 					FROM customers 
 					WHERE customer_id = $1`
@@ -61,8 +70,12 @@ func (d CustomerRepositoryDb) ByID(id string) (*Customer, error) {
 		&c.Status,
 	)
 	if err != nil {
-		log.Println("Error while scanning customer " + err.Error())
-		return nil, err
+		if err == sql.ErrNoRows {
+			return nil, errs.NewNotFoundError("Customer Not Found")
+		} else {
+			log.Println("Error while scanning customer " + err.Error())
+			return nil, errs.NewUnexpectedError("Unexpected database error")
+		}
 	}
 
 	return &c, nil
