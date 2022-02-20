@@ -2,8 +2,6 @@ package app
 
 import (
 	"encoding/json"
-	"encoding/xml"
-	"fmt"
 	"net/http"
 
 	"github.com/fajarabdillahfn/banking_app/service"
@@ -15,18 +13,13 @@ type CustomerHandlers struct {
 }
 
 func (ch *CustomerHandlers) GetAllCustomers(w http.ResponseWriter, r *http.Request) {
-	customers, err := ch.service.GetAllCustomers()
+	status := r.URL.Query().Get("status")
+	
+	customers, err := ch.service.GetAllCustomers(status)
 	if err != nil {
-		fmt.Fprint(w, err)
-		return
-	}
-
-	if r.Header.Get("Content-Type") == "application/xml" {
-		w.Header().Add("Content-Type", "application/xml")
-		xml.NewEncoder(w).Encode(customers)
+		writeResponse(w, err.Code, err.AsMessage())
 	} else {
-		w.Header().Add("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(customers)
+		writeResponse(w, http.StatusOK, customers)
 	}
 }
 
