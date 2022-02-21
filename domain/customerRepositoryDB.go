@@ -3,6 +3,7 @@ package domain
 import (
 	"database/sql"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/fajarabdillahfn/banking_app/errs"
@@ -56,7 +57,15 @@ func (d CustomerRepositoryDb) ByID(id string) (*Customer, *errs.AppError) {
 }
 
 func NewCustomerRepositoryDb() CustomerRepositoryDb {
-	client, err := sqlx.Open("postgres", "postgres://abdillah.fajar:masBed0311@localhost/banking_app?sslmode=disable")
+	dbDriver := os.Getenv("DB_DRIVER")
+	dbUser := os.Getenv("DB_USER")
+	dbPasswd := os.Getenv("DB_PASSWD")
+	dbAddr := os.Getenv("DB_ADDR")
+	dbPort := os.Getenv("DB_PORT")
+	dbName := os.Getenv("DB_NAME")
+
+	dataSource := fmt.Sprintf("%s://%s:%s@%s:%s/%s?sslmode=disable", dbDriver, dbUser, dbPasswd, dbAddr, dbPort, dbName)
+	client, err := sqlx.Open(dbDriver, dataSource)
 	if err != nil {
 		panic(err)
 	}
