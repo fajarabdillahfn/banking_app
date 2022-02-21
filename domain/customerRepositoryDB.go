@@ -7,15 +7,17 @@ import (
 
 	"github.com/fajarabdillahfn/banking_app/errs"
 	"github.com/fajarabdillahfn/banking_app/logger"
+	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
 
 type CustomerRepositoryDb struct {
-	client *sql.DB
+	client *sqlx.DB
 }
 
 func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError) {
 	where := ""
+	customers := make([]Customer, 0)
 
 	if status != "" {
 		where = fmt.Sprintf("WHERE status = %s", status)
@@ -23,55 +25,24 @@ func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError
 
 	findAllSql := fmt.Sprintf("SELECT customer_id, name, city, zipcode, date_of_birth, status FROM customers %s", where)
 
-	rows, err := d.client.Query(findAllSql)
+	err := d.client.Select(&customers, findAllSql)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, errs.NewNotFoundError("Customer not found")
-		} else {
-			logger.Error("Error while querying table: " + err.Error())
-			return nil, errs.NewUnexpectedError("Unexpected database error")
-		}
-	}
-
-	customers := make([]Customer, 0)
-
-	for rows.Next() {
-		var c Customer
-		err := rows.Scan(
-			&c.ID,
-			&c.Name,
-			&c.City,
-			&c.Zipcode,
-			&c.DateOfBirth,
-			&c.Status,
-		)
-		if err != nil {
-			logger.Error("Error while scanning: " + err.Error())
-			return nil, errs.NewUnexpectedError("Unexpected database error")
-		}
-		customers = append(customers, c)
+		logger.Error("Error while querying table: " + err.Error())
+		return nil, errs.NewUnexpectedError("Unexpected database error")
 	}
 
 	return customers, nil
 }
 
 func (d CustomerRepositoryDb) ByID(id string) (*Customer, *errs.AppError) {
+	var c Customer
+
 	customerSql := `SELECT customer_id, name, city, zipcode, date_of_birth, status 
 					FROM customers 
 					WHERE customer_id = $1`
 
-	row := d.client.QueryRow(customerSql, id)
+	err := d.client.Get(&c, customerSql, id)
 
-	var c Customer
-
-	err := row.Scan(
-		&c.ID,
-		&c.Name,
-		&c.City,
-		&c.Zipcode,
-		&c.DateOfBirth,
-		&c.Status,
-	)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, errs.NewNotFoundError("Customer Not Found")
@@ -85,7 +56,7 @@ func (d CustomerRepositoryDb) ByID(id string) (*Customer, *errs.AppError) {
 }
 
 func NewCustomerRepositoryDb() CustomerRepositoryDb {
-	client, err := sql.Open("postgres", "postgres://abdillah.fajar:masBed0311@localhost/banking_app?sslmode=disable")
+	client, err := sqlx.Open("postgres", "postgres://abdillah.fajar:masBed0311@localhost/banking_app?sslmode=disable")
 	if err != nil {
 		panic(err)
 	}
