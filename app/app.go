@@ -1,7 +1,6 @@
 package app
 
 import (
-	"fmt"
 	"log"
 	"net/http"
 
@@ -25,6 +24,5 @@ func Start() {
 	router.HandleFunc("/customer/{customer_id:[0-9]+}", ch.GetCustomer).Methods(http.MethodGet)
 
 	// starting server
-	fmt.Println("Listening on Port", port)
 	log.Fatal(http.ListenAndServe(port, router))
 }

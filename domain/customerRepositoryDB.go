@@ -3,10 +3,10 @@ package domain
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/fajarabdillahfn/banking_app/errs"
+	"github.com/fajarabdillahfn/banking_app/logger"
 	_ "github.com/lib/pq"
 )
 
@@ -28,7 +28,7 @@ func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError
 		if err == sql.ErrNoRows {
 			return nil, errs.NewNotFoundError("Customer not found")
 		} else {
-			log.Println("Error while querying table:", err)
+			logger.Error("Error while querying table: " + err.Error())
 			return nil, errs.NewUnexpectedError("Unexpected database error")
 		}
 	}
@@ -46,7 +46,7 @@ func (d CustomerRepositoryDb) FindAll(status string) ([]Customer, *errs.AppError
 			&c.Status,
 		)
 		if err != nil {
-			log.Println("Error while scanning:", err)
+			logger.Error("Error while scanning: " + err.Error())
 			return nil, errs.NewUnexpectedError("Unexpected database error")
 		}
 		customers = append(customers, c)
@@ -76,7 +76,7 @@ func (d CustomerRepositoryDb) ByID(id string) (*Customer, *errs.AppError) {
 		if err == sql.ErrNoRows {
 			return nil, errs.NewNotFoundError("Customer Not Found")
 		} else {
-			log.Println("Error while scanning customer " + err.Error())
+			logger.Error("Error while scanning customer " + err.Error())
 			return nil, errs.NewUnexpectedError("Unexpected database error")
 		}
 	}
