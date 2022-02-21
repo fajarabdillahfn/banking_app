@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/fajarabdillahfn/banking_app/app/errs"
+	"github.com/fajarabdillahfn/banking_app/errs"
 	_ "github.com/lib/pq"
 )
 

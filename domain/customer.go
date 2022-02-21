@@ -1,6 +1,6 @@
 package domain
 
-import "github.com/fajarabdillahfn/banking_app/app/errs"
+import "github.com/fajarabdillahfn/banking_app/errs"
 
 type Customer struct {
 	ID          string

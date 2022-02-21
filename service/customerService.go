@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/fajarabdillahfn/banking_app/app/errs"
 	"github.com/fajarabdillahfn/banking_app/domain"
+	"github.com/fajarabdillahfn/banking_app/errs"
 )
 
 type CustomerService interface {
