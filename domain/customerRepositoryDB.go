@@ -56,7 +56,7 @@ func (d CustomerRepositoryDb) ByID(id string) (*Customer, *errs.AppError) {
 	return &c, nil
 }
 
-func NewCustomerRepositoryDb() CustomerRepositoryDb {
+func NewCustomerRepositoryDb(dbClient *sqlx.DB) CustomerRepositoryDb {
 	dbDriver := os.Getenv("DB_DRIVER")
 	dbUser := os.Getenv("DB_USER")
 	dbPasswd := os.Getenv("DB_PASSWD")
