@@ -7,9 +7,13 @@ import (
 )
 
 type NewAccountRequest struct {
-	CustomerID   string  `json:"customer_id"`
+	CustomerID  string  `json:"customer_id"`
 	AccountType string  `json:"account_type"`
 	Amount      float64 `json:"amount"`
+}
+
+type NewAccountResponse struct {
+	AccountID string `json:"account_id"`
 }
 
 func (r NewAccountRequest) Validate() *errs.AppError {
