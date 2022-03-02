@@ -3,6 +3,8 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/fajarabdillahfn/banking-lib v1.0.0 h1:AsNPUsS6uRno7B4Cb7MrZjCL8yPFnWK0MOqCRMoK6iI=
 github.com/fajarabdillahfn/banking-lib v1.0.0/go.mod h1:AxB3krNYxUp5tvbDk2cV+3yfkp7ADurrbYuCfcsSsrw=
+github.com/fajarabdillahfn/banking-lib v1.0.2 h1:8BVjJ+TGjqSG/GDBlyM5S4OpSZjeZPdbJfhoFNlFV3s=
+github.com/fajarabdillahfn/banking-lib v1.0.2/go.mod h1:AxB3krNYxUp5tvbDk2cV+3yfkp7ADurrbYuCfcsSsrw=
 github.com/go-sql-driver/mysql v1.5.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
 github.com/gorilla/mux v1.8.0 h1:i40aqfkR1h2SlN9hojwV5ZA91wcXFOvkdNIeFDP5koI=
 github.com/gorilla/mux v1.8.0/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
