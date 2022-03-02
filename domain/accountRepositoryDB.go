@@ -4,8 +4,8 @@ import (
 	"log"
 	"strconv"
 
-	"github.com/fajarabdillahfn/banking_app/errs"
-	"github.com/fajarabdillahfn/banking_app/logger"
+	"github.com/fajarabdillahfn/banking-lib/errs"
+	"github.com/fajarabdillahfn/banking-lib/logger"
 	"github.com/jmoiron/sqlx"
 )
 

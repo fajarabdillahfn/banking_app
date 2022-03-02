@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
+	"github.com/fajarabdillahfn/banking-lib/logger"
 	"github.com/fajarabdillahfn/banking_app/domain"
-	"github.com/fajarabdillahfn/banking_app/logger"
 	"github.com/fajarabdillahfn/banking_app/service"
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"

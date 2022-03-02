@@ -3,8 +3,8 @@ package domain
 import (
 	"strings"
 
+	"github.com/fajarabdillahfn/banking-lib/errs"
 	"github.com/fajarabdillahfn/banking_app/dto"
-	"github.com/fajarabdillahfn/banking_app/errs"
 )
 
 type Transaction struct {

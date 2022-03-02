@@ -3,9 +3,9 @@ package service
 import (
 	"time"
 
+	"github.com/fajarabdillahfn/banking-lib/errs"
 	"github.com/fajarabdillahfn/banking_app/domain"
 	"github.com/fajarabdillahfn/banking_app/dto"
-	"github.com/fajarabdillahfn/banking_app/errs"
 )
 
 type AccountService interface {
@@ -90,4 +90,3 @@ func (s DefaultAccountService) MakeTransaction(req dto.TransactionRequest) (*dto
 
 	return &response, nil
 }
-
