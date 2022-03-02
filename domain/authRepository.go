@@ -2,7 +2,6 @@ package domain
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"net/url"
 
@@ -24,7 +23,7 @@ func (r RemoteAuthRepository) IsAuthorized(token string, routeName string, vars 
 	u := buildVerifyURL(token, routeName, vars)
 
 	if response, err := http.Get(u); err != nil {
-		fmt.Println("Error while sending..." + err.Error())
+		logger.Error("Error while sending..." + err.Error())
 		return false
 	} else {
 		m := map[string]bool{}
